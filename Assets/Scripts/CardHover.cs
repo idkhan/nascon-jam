@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CardHover : MonoBehaviour{
+public class CardHover : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler{
     private Vector3 originalPosition;
     private Vector3 originalScale;
     private bool isHovered = false;
@@ -19,12 +20,12 @@ public class CardHover : MonoBehaviour{
         originalScale = transform.localScale;
     }
 
-    public void OnMouseEnter()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         isHovered = true;
     }
 
-    public void OnMouseExit()
+    public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
     }
