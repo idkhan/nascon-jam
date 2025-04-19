@@ -1,18 +1,20 @@
+using System;
 using System.Collections.Generic;
-using System.IO.Compression;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public enum Turn{
     Liar,
     Detective
 }
+
 public class HandManager : MonoBehaviour {
     public GameObject cardPrefab;
     //Not using this rn, but if we want to move the hand, it'll be useful
     public Transform handArea;
     public List<CardData> hand;
+    private List<GameObject> objects;
 
     [SerializeField]
     private Turn currentTurn;
@@ -42,11 +44,20 @@ public class HandManager : MonoBehaviour {
     [SerializeField]
     private List<CardData> selectedCards;
     private bool allowToggle;
+
+    [Header("Liar UI")]
     public Button liarPlay;
+    public CanvasRenderer liarSubmitPanel;
+    public TMP_Text liarText;
+    private int pickedCard;
+    public Button sendButton;
 
     void Start() {
         liarPlay.gameObject.SetActive(false);
+        liarSubmitPanel.gameObject.SetActive(false);
+        sendButton.interactable = false;
 
+        objects = new List<GameObject>();
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         hand.Add(deck.DrawCard());
         hand.Add(deck.DrawCard());
@@ -81,6 +92,7 @@ public class HandManager : MonoBehaviour {
         GameObject card = Instantiate(cardPrefab, handArea);
         card.GetComponent<Card>().Initialize(data);
         CardHover hover = card.GetComponent<CardHover>();
+        objects.Add(card);
         if(hover == null){
             card.AddComponent<CardHover>(); //Force adding hover to all cards inhand
         }
@@ -94,6 +106,14 @@ public class HandManager : MonoBehaviour {
             hand.Add(newCard);
             SpawnCard(newCard);
         }
+    }
+
+    public void RemoveCard(CardData card){
+        int index = hand.IndexOf(card);
+        hand.Remove(card);
+        Destroy(objects[index]);
+        objects.RemoveAt(index);
+        UpdateHandLayout();
     }
 
     void UpdateHandLayout() {
@@ -147,6 +167,10 @@ public class HandManager : MonoBehaviour {
         } else {
             liarPlay.gameObject.SetActive(false);
         }
+
+        if(liarSubmitPanel.gameObject.activeSelf){
+            allowToggle = false;
+        }
     }
 
     public bool selectCard(CardData card, bool add){
@@ -162,10 +186,84 @@ public class HandManager : MonoBehaviour {
             return false;
         }
     }
-
+    public void setCard(int number){
+        //14 - Spades, 15 - Clubs, 16-Hearts, 17-Diamonds
+        pickedCard = number;
+        String text = selectedCards.Count.ToString() + " " + GetCardLabel(pickedCard) + "s";
+        liarText.text = "I have " + text;
+        sendButton.interactable = true;
+    }
     public void playCards(){
         Debug.Log("PLAYED");
-        Debug.Log(selectedCards[0]);
+        liarSubmitPanel.gameObject.SetActive(true);
+        liarText.text = "I have " + selectedCards.Count.ToString();
+    }
+
+    public void endLiarTurn(){
+        Debug.Log("TURN ENDED");
+        bool isTrue = isLying(selectedCards,pickedCard); //True if true, false if a lie
+        Debug.Log(isTrue);
+        foreach(CardData card in selectedCards){
+            RemoveCard(card);
+        }
+    }
+
+    public bool isLying(List<CardData> cards, int setValue){
+        if(setValue > 13){
+            //Check Suits
+            foreach(CardData card in cards){
+                int suit = 0;
+                switch(card.suit){
+                    case Suit.Spades: suit = 14; break;
+                    case Suit.Clubs: suit = 15; break;
+                    case Suit.Hearts: suit = 16; break;
+                    case Suit.Diamonds: suit = 17; break;
+                    default: suit = -1; break;
+                }
+                if(suit != setValue){
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            //Check Numbers
+            foreach(CardData card in cards){
+                if(card.value != setValue){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void HidePanel(){
+        liarSubmitPanel.gameObject.SetActive(false);
+    }
+
+    string GetCardLabel(int value)
+    {
+        switch (value)
+        {
+            case 0: return "";
+            case 1: return "A";
+            case 2: return "Two";
+            case 3: return "Three";
+            case 4: return "Four";
+            case 5: return "Five";
+            case 6: return "Six";
+            case 7: return "Seven";
+            case 8: return "Eight";
+            case 9: return "Nine";
+            case 10: return "Ten";
+            case 11: return "Jack";
+            case 12: return "Queen";
+            case 13: return "King";
+            case 14: return "Spade";
+            case 15: return "Club";
+            case 16: return "Heart";
+            case 17: return "Diamond";
+            default: return value.ToString();
+        }
     }
 
 }
