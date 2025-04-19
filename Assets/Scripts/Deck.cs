@@ -18,6 +18,7 @@ public class Deck : MonoBehaviour
     private void InitializeDeck(){
         deck = new List<CardData>(allCards);
         ShuffleDeck();
+        ShuffleDeck();
     }
     public void ShuffleDeck(){
         for (int i = 0; i < deck.Count; i++){
@@ -31,6 +32,9 @@ public class Deck : MonoBehaviour
     public void ResetDiscard(){
         deck.AddRange(discardedCards);
         discardedCards.RemoveRange(0,discardedCards.Count);
+        ShuffleDeck();
+        ShuffleDeck();
+
         UpdateSize();
     }
 

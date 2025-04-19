@@ -17,7 +17,7 @@ public class HandManager : MonoBehaviour {
     private List<GameObject> objects;
 
     [SerializeField]
-    private Turn currentTurn;
+    public Turn currentTurn;
 
     public float arcRadius = 5f; // Radius of the curve
     public float maxAngle = 10f; // Total arc angle in degrees
@@ -45,28 +45,29 @@ public class HandManager : MonoBehaviour {
     private List<CardData> selectedCards;
     private bool allowToggle;
 
+    private GameManager gameManager;
+
     [Header("Liar UI")]
     public Button liarPlay;
     public CanvasRenderer liarSubmitPanel;
     public TMP_Text liarText;
     private int pickedCard;
     public Button sendButton;
+    public TMP_Text DamageCount;
+
+    [Header("Detective UI")]
+    public TMP_Text statement;
 
     void Start() {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+
         liarPlay.gameObject.SetActive(false);
         liarSubmitPanel.gameObject.SetActive(false);
         sendButton.interactable = false;
 
         objects = new List<GameObject>();
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
-        hand.Add(deck.DrawCard());
-        hand.Add(deck.DrawCard());
-        hand.Add(deck.DrawCard());
-        hand.Add(deck.DrawCard());
-        hand.Add(deck.DrawCard());
-        foreach (var cardData in hand) {
-            SpawnCard(cardData);
-        }
+        Draw(5);
         UpdateHandLayout();
         SetBasePosition();
     }
@@ -75,12 +76,17 @@ public class HandManager : MonoBehaviour {
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
-        if(currentTurn == Turn.Liar){
+        if(currentTurn == Turn.Liar && gameManager.isTurn){
             allowToggle = true;
+            LiarTurn();
         } else {
             allowToggle = false;
         }
-        LiarTurn();
+        if(currentTurn == Turn.Detective && gameManager.isTurn){
+            DetectiveTurn();
+        } else {
+            statement.gameObject.SetActive(false);
+        }
     }
 
     void SetBasePosition(){
@@ -162,7 +168,7 @@ public class HandManager : MonoBehaviour {
     }
 
     void LiarTurn(){
-        if(selectedCards.Count >= 2){
+        if(selectedCards.Count >= 2 && gameManager.isTurn){
             liarPlay.gameObject.SetActive(true);
         } else {
             liarPlay.gameObject.SetActive(false);
@@ -189,10 +195,21 @@ public class HandManager : MonoBehaviour {
     public void setCard(int number){
         //14 - Spades, 15 - Clubs, 16-Hearts, 17-Diamonds
         pickedCard = number;
-        String text = selectedCards.Count.ToString() + " " + GetCardLabel(pickedCard) + "s";
+        string text = selectedCards.Count.ToString() + " " + GetCardLabel(pickedCard) + "s";
         liarText.text = "I have " + text;
         sendButton.interactable = true;
+        DamageCount.text = DamageCalculation(selectedCards.Count,pickedCard).ToString() + " Damage";
     }
+
+    public int DamageCalculation(int numberOfCards, int pickedNumber){
+        float multiplier = 2f;
+        if(pickedNumber > 13){
+            //Suits
+            multiplier = 1f;
+        }
+        return (int)Mathf.Floor(numberOfCards * multiplier);
+    }
+
     public void playCards(){
         Debug.Log("PLAYED");
         liarSubmitPanel.gameObject.SetActive(true);
@@ -206,6 +223,10 @@ public class HandManager : MonoBehaviour {
         foreach(CardData card in selectedCards){
             RemoveCard(card);
         }
+        gameManager.EndLiarTurn(selectedCards,isTrue,liarText.text,DamageCalculation(selectedCards.Count,pickedCard));
+
+        liarPlay.gameObject.SetActive(false);
+        liarSubmitPanel.gameObject.SetActive(false);
     }
 
     public bool isLying(List<CardData> cards, int setValue){
@@ -245,12 +266,12 @@ public class HandManager : MonoBehaviour {
         switch (value)
         {
             case 0: return "";
-            case 1: return "A";
+            case 1: return "Ace";
             case 2: return "Two";
             case 3: return "Three";
             case 4: return "Four";
             case 5: return "Five";
-            case 6: return "Six";
+            case 6: return "Sixe";
             case 7: return "Seven";
             case 8: return "Eight";
             case 9: return "Nine";
@@ -264,6 +285,15 @@ public class HandManager : MonoBehaviour {
             case 17: return "Diamond";
             default: return value.ToString();
         }
+    }
+
+    void DetectiveTurn(){
+        statement.gameObject.SetActive(true);
+        statement.text = gameManager.statement;
+    }
+
+    public void DetectiveGuess(bool guess){
+        gameManager.EndDetectiveTurn(guess);
     }
 
 }
