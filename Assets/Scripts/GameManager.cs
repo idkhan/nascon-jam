@@ -47,5 +47,6 @@ public class GameManager : MonoBehaviour
 
     void StartLiarTurn()
     {
+        
     }
 }

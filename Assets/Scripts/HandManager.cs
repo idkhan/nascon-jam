@@ -42,8 +42,11 @@ public class HandManager : MonoBehaviour {
     [SerializeField]
     private List<CardData> selectedCards;
     private bool allowToggle;
+    public Button liarPlay;
 
     void Start() {
+        liarPlay.gameObject.SetActive(false);
+
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         hand.Add(deck.DrawCard());
         hand.Add(deck.DrawCard());
@@ -66,6 +69,7 @@ public class HandManager : MonoBehaviour {
         } else {
             allowToggle = false;
         }
+        LiarTurn();
     }
 
     void SetBasePosition(){
@@ -138,7 +142,11 @@ public class HandManager : MonoBehaviour {
     }
 
     void LiarTurn(){
-
+        if(selectedCards.Count >= 2){
+            liarPlay.gameObject.SetActive(true);
+        } else {
+            liarPlay.gameObject.SetActive(false);
+        }
     }
 
     public bool selectCard(CardData card, bool add){
@@ -153,6 +161,11 @@ public class HandManager : MonoBehaviour {
             selectedCards.Remove(card);
             return false;
         }
+    }
+
+    public void playCards(){
+        Debug.Log("PLAYED");
+        Debug.Log(selectedCards[0]);
     }
 
 }
