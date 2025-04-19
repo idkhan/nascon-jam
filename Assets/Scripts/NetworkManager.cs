@@ -56,8 +56,10 @@ public class NetworkManager : MonoBehaviour
         // Configuration for the game room
         InitOptions options = new InitOptions
         {
-            skipLobby = false,
-            maxPlayersPerRoom = 6,
+            gameId = "LtHdOhiwxUqx1PXi0mZ0",
+            discord = true,
+            skipLobby = true,
+            maxPlayersPerRoom = 2,
             turnBased = true,
         };
 
