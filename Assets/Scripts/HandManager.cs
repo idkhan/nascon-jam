@@ -1,13 +1,14 @@
+using System;
 using System.Collections.Generic;
-using System.IO.Compression;
+using TMPro;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
 using UnityEngine.UI;
 
 public enum Turn{
     Liar,
     Detective
 }
+
 public class HandManager : MonoBehaviour {
     public GameObject cardPrefab;
     //Not using this rn, but if we want to move the hand, it'll be useful
@@ -42,10 +43,16 @@ public class HandManager : MonoBehaviour {
     [SerializeField]
     private List<CardData> selectedCards;
     private bool allowToggle;
+
+    [Header("Liar UI")]
     public Button liarPlay;
+    public CanvasRenderer liarSubmitPanel;
+    public TMP_Text liarText;
+    private int pickedCard;
 
     void Start() {
         liarPlay.gameObject.SetActive(false);
+        liarSubmitPanel.gameObject.SetActive(false);
 
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         hand.Add(deck.DrawCard());
@@ -147,6 +154,10 @@ public class HandManager : MonoBehaviour {
         } else {
             liarPlay.gameObject.SetActive(false);
         }
+
+        if(liarSubmitPanel.gameObject.activeSelf){
+            allowToggle = false;
+        }
     }
 
     public bool selectCard(CardData card, bool add){
@@ -162,10 +173,46 @@ public class HandManager : MonoBehaviour {
             return false;
         }
     }
-
+    public void setCard(int number){
+        //14 - Spades, 15 - Clubs, 16-Hearts, 17-Diamonds
+        pickedCard = number;
+        String text = selectedCards.Count.ToString() + " " + GetCardLabel(pickedCard) + "s";
+        liarText.text = "I have " + text;
+    }
     public void playCards(){
         Debug.Log("PLAYED");
-        Debug.Log(selectedCards[0]);
+        liarSubmitPanel.gameObject.SetActive(true);
+        liarText.text = "I have " + selectedCards.Count.ToString();
+    }
+
+    public void HidePanel(){
+        liarSubmitPanel.gameObject.SetActive(false);
+    }
+
+    string GetCardLabel(int value)
+    {
+        switch (value)
+        {
+            case 0: return "";
+            case 1: return "A";
+            case 2: return "Two";
+            case 3: return "Three";
+            case 4: return "Four";
+            case 5: return "Five";
+            case 6: return "Six";
+            case 7: return "Seven";
+            case 8: return "Eight";
+            case 9: return "Nine";
+            case 10: return "Ten";
+            case 11: return "Jack";
+            case 12: return "Queen";
+            case 13: return "King";
+            case 14: return "Spade";
+            case 15: return "Club";
+            case 16: return "Heart";
+            case 17: return "Diamond";
+            default: return value.ToString();
+        }
     }
 
 }
