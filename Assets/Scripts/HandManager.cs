@@ -3,11 +3,18 @@ using System.IO.Compression;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
+public enum Turn{
+    Liar,
+    Detective
+}
 public class HandManager : MonoBehaviour {
     public GameObject cardPrefab;
     //Not using this rn, but if we want to move the hand, it'll be useful
     public Transform handArea;
     public List<CardData> hand;
+
+    [SerializeField]
+    private Turn currentTurn;
 
     public float arcRadius = 5f; // Radius of the curve
     public float maxAngle = 10f; // Total arc angle in degrees
@@ -44,11 +51,15 @@ public class HandManager : MonoBehaviour {
         UpdateHandLayout();
         SetBasePosition();
     }
-
+    
     void Update(){
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
+
+        if(currentTurn == Turn.Liar){
+
+        }
     }
 
     void SetBasePosition(){
@@ -60,6 +71,14 @@ public class HandManager : MonoBehaviour {
         GameObject card = Instantiate(cardPrefab, handArea);
         card.GetComponent<Card>().Initialize(data);
         //card.AddComponent<CardHover>(); //Force adding hover to all cards inhand
+    }
+
+    public void Draw(int amount){
+        for(int i = 0; i < amount; i++){
+            CardData newCard = deck.DrawCard();
+            hand.Add(newCard);
+            SpawnCard(newCard);
+        }
     }
 
     void UpdateHandLayout() {
@@ -105,6 +124,10 @@ public class HandManager : MonoBehaviour {
             transform.rotation = Quaternion.Euler(Vector3.Lerp(transform.rotation.eulerAngles, originalRotation,Time.deltaTime * lerpSpeed));
 
         }
+    }
+
+    void LiarTurn(){
+        
     }
 
 }

@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   suit: 3
   value: 3
-  image: {fileID: 21300000, guid: fcfb8cc483cf54446908c863057fc7d5, type: 3}
+  image: {fileID: 834140287, guid: 2f48f50f04a9786488842cbbfc69cb59, type: 3}

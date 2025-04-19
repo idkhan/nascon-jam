@@ -15,15 +15,13 @@ public class NetworkManager : MonoBehaviour
 
     [Header("External")]
     [SerializeField]
-    private GameObject cardsHolder;
-    [SerializeField]
-    //private GameFlowManager gameFlowManager;
+    private GameManager gameManager;
 
     public bool GameStarted { get; private set; }
     public bool IsHost { get; private set; }
 
     private PlayroomKit prk;
-
+    
 
     // This list will be overwritten on each client based on the host’s ordering.
     private List<PlayroomKit.Player> players = new();
@@ -46,7 +44,6 @@ public class NetworkManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-
         // Initialize PlayroomKit
         prk = new PlayroomKit();
     }
@@ -58,7 +55,7 @@ public class NetworkManager : MonoBehaviour
         {
             gameId = "LtHdOhiwxUqx1PXi0mZ0",
             discord = true,
-            skipLobby = true,
+            skipLobby = false,
             maxPlayersPerRoom = 2,
             turnBased = true,
         };
@@ -86,10 +83,9 @@ public class NetworkManager : MonoBehaviour
         InfoText.text = prk.MyPlayer().GetProfile().name;
 
         IsHost = prk.IsHost();
-        cardsHolder.SetActive(true);
         //gameFlowManager.playButton.interactable = prk.IsHost();
         //gameFlowManager.InitStateMachine();
-        GameStarted = true;
+        
 
         if (prk.IsHost())
         {
