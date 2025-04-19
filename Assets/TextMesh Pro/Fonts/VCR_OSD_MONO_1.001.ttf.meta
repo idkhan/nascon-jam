@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b9a440fd19b4ec64ca303fcd33e3a30b
+guid: 05769054ffa6b18468fb6b8a5997d501
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Press Start 2P
+  - VCR OSD Mono
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

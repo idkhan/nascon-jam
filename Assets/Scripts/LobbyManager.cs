@@ -28,6 +28,7 @@ public class LobbyManager : MonoBehaviour
         }
 
         Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -42,6 +43,9 @@ public class LobbyManager : MonoBehaviour
         InitOptions options = new InitOptions
         {
             maxPlayersPerRoom = 2,
+            skipLobby = false,
+            gameId = "LtHdOhiwxUqx1PXi0mZ0",
+            discord = true
         };
 
         // Start the game room
