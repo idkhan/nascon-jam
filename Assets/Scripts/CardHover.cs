@@ -1,14 +1,19 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardHover : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler{
+public class CardHover : MonoBehaviour{
     private Vector3 originalPosition;
     private Vector3 originalScale;
     private bool isHovered = false;
 
-    public float hoverLift = 0.50f;
+    public float hoverLift = 0.10f;
     public float hoverScale = 1.1f;
     public float lerpSpeed = 10f;
+    bool selected = false;
+    HandManager hand;
+    public void setHand(HandManager newHand){
+        hand = newHand;
+    }
 
     public void SetOriginalPosition(Vector3 pos) {
         originalPosition = pos;
@@ -20,18 +25,27 @@ public class CardHover : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
         originalScale = transform.localScale;
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnMouseEnter()
     {
         isHovered = true;
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnMouseExit()
     {
         isHovered = false;
     }
 
+    public void OnMouseDown()
+    {
+        Debug.Log("Clicked");
+        if(hand != null){
+            selected = hand.selectCard(GetComponent<Card>().cardData,!selected);
+            Debug.Log(selected);
+        }
+    }
+
     void Update() {
-        if (isHovered) {
+        if (isHovered || selected) {
             Vector3 targetPos = originalPosition + Vector3.up * hoverLift;
             Vector3 targetScale = originalScale * hoverScale;
             transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, Time.deltaTime * lerpSpeed);
