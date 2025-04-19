@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class Card : MonoBehaviour {
     public CardData cardData;
-    public TextMeshProUGUI cardValue;
+    //public TextMeshProUGUI cardValue;
     public void Initialize(CardData data) {
         cardData = data;
         GetComponent<SpriteRenderer>().sprite = data.image;
-        cardValue.text = GetCardLabel(data.value);
+        //cardValue.text = GetCardLabel(data.value);
     }
 
     string GetCardLabel(int value)

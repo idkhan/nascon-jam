@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO.Compression;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
+using UnityEngine.UI;
 
 public enum Turn{
     Liar,
@@ -37,6 +38,10 @@ public class HandManager : MonoBehaviour {
     float lerpSpeed = 5f;
 
     private Deck deck;
+    
+    [SerializeField]
+    private List<CardData> selectedCards;
+    private bool allowToggle;
 
     void Start() {
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
@@ -56,9 +61,10 @@ public class HandManager : MonoBehaviour {
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
-
         if(currentTurn == Turn.Liar){
-
+            allowToggle = true;
+        } else {
+            allowToggle = false;
         }
     }
 
@@ -70,7 +76,12 @@ public class HandManager : MonoBehaviour {
     void SpawnCard(CardData data) {
         GameObject card = Instantiate(cardPrefab, handArea);
         card.GetComponent<Card>().Initialize(data);
-        //card.AddComponent<CardHover>(); //Force adding hover to all cards inhand
+        CardHover hover = card.GetComponent<CardHover>();
+        if(hover == null){
+            card.AddComponent<CardHover>(); //Force adding hover to all cards inhand
+        }
+        hover = card.GetComponent<CardHover>();
+        hover.setHand(this);
     }
 
     public void Draw(int amount){
@@ -107,9 +118,9 @@ public class HandManager : MonoBehaviour {
 
             //Update Hover (if it exists?? We probably dont need this since ill force add hover anyways)
             CardHover hover = card.GetComponent<CardHover>();
-            if(hover != null){
-                hover.SetOriginalPosition(card.localPosition);
-            }
+            //if(hover != null){
+            hover.SetOriginalPosition(card.localPosition);
+            //}
         }
     }
 
@@ -127,7 +138,21 @@ public class HandManager : MonoBehaviour {
     }
 
     void LiarTurn(){
-        
+
+    }
+
+    public bool selectCard(CardData card, bool add){
+        if(!allowToggle){
+            Debug.Log("Not allowed");
+            return false;
+        }
+        if(add){
+            selectedCards.Add(card);
+            return true;
+        } else {
+            selectedCards.Remove(card);
+            return false;
+        }
     }
 
 }
