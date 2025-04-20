@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     private bool isTrue;
     public int damage;
 
+    public LobbyManager lobby;
+
     public void Awake() //Singleton Made
     {
         if (Instance != null && Instance != this)
@@ -47,13 +49,11 @@ public class GameManager : MonoBehaviour
     }
     
     public void StartTurns(bool Liar){
-        if(Liar){
-            StartLiarTurn();
-        } else {
-            isLiar = false;
-            isTurn = false;
-        }
-        handManager.RoundStart();
+        isLiar = Liar;
+        isTurn = Liar;
+        Debug.Log("Turn: " + isTurn + " Liar: " + isLiar);
+
+        handManager.RoundStart();        
     }
 
     void Update()
@@ -83,7 +83,7 @@ public class GameManager : MonoBehaviour
             obj.transform.localPosition = obj.transform.localPosition + Vector3.right * spacing * (i - Mathf.Floor((count+1)/2));
             obj.transform.localPosition = obj.transform.localPosition + Vector3.forward * 0.01f * i + Vector3.up * -i * 0.1f;
         }
-        
+        nextTurn();
     }
 
     private void StartDetectiveTurn(){
@@ -100,5 +100,9 @@ public class GameManager : MonoBehaviour
         } else {
             //Liar Wins
         }
+    }
+
+    public void nextTurn(){
+        lobby.nextTurn(isTurn);
     }
 }

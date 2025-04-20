@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Playroom;
-using UnityEngine.SceneManagement;
 using System;
 
 public class LobbyManager : MonoBehaviour
@@ -22,6 +21,7 @@ public class LobbyManager : MonoBehaviour
     public PlayroomKit.Player Liar;
     public PlayroomKit.Player Detective;
     public GameManager gameManager;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,7 +59,7 @@ public class LobbyManager : MonoBehaviour
 
         // Register player join event
         prk.OnPlayerJoin(OnPlayerJoined);
-
+        prk.RpcRegister("NextTurn", nextTurnCallback);
         StartCoroutine(CheckForGameStart());
     }
 
@@ -103,7 +103,6 @@ public class LobbyManager : MonoBehaviour
         Debug.Log("Started Game");
         prk.SetState<bool>("started",true);
         Debug.Log("Game Started!");
-
         RunGame();
     }
 
@@ -125,7 +124,28 @@ public class LobbyManager : MonoBehaviour
     private void RunGame(){
         Liar = players[0];
         Detective = players[1];
-        Debug.Log("Am I liar? " + (prk.Me() == Liar));
-        gameManager.StartTurns(prk.Me() == Liar);
+        bool state = prk.Me() == Liar;
+        Debug.Log("Am I liar? " + state);
+        gameManager.StartTurns(state);
     }
+    public void nextTurn(bool turn) {
+        string raw = turn.ToString().ToLower(); // "true" or "false"
+        prk.RpcCall("NextTurn", raw);
+    }
+
+
+    void nextTurnCallback(string _data, string senderId) {
+        bool data = _data.ToLower() == "true";
+        Debug.Log($"data received in RPC: {data}");
+
+        if (data) {
+            gameManager.isTurn = !gameManager.isTurn;
+        } else {
+            PlayroomKit.Player temp = Liar;
+            Liar = Detective;
+            Detective = temp;
+            RunGame();
+        }
+    }
+
 }

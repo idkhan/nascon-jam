@@ -51,19 +51,17 @@ public class HandManager : MonoBehaviour {
     private int pickedCard;
     public Button sendButton;
     public TMP_Text DamageCount;
+    private bool liarPannel = false;
 
     [Header("Detective UI")]
     public TMP_Text statement;
     public CanvasRenderer detectivePanel;
 
+    private bool isTurn;
+    private bool isLiar;
+
     void Start() {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
-
-        liarPlay.gameObject.SetActive(false);
-        liarSubmitPanel.gameObject.SetActive(false);
-        sendButton.interactable = false;
-        detectivePanel.gameObject.SetActive(false);
-        statement.gameObject.SetActive(false);
         objects = new List<GameObject>();
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         Draw(5);
@@ -71,24 +69,36 @@ public class HandManager : MonoBehaviour {
         SetBasePosition();
     }
     
+    void setUIElements(){
+        liarPlay.gameObject.SetActive(isLiar && isTurn && selectedCards.Count >=2); //Play card button
+        liarSubmitPanel.gameObject.SetActive(liarPannel);   //Submit statement panel
+        sendButton.interactable = pickedCard != 0;  //
+
+        //Liar UI
+        allowToggle = isTurn && isLiar && !liarSubmitPanel.gameObject.activeSelf;
+            
+        //Detective UI
+        statement.gameObject.SetActive(isTurn && !isLiar); //Lie Statement
+        detectivePanel.gameObject.SetActive(isTurn && !isLiar); //Picker
+
+    }
+
     void Update(){
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
+        isTurn = gameManager.isTurn;
+        isLiar = gameManager.isLiar;
+
+        setUIElements();
     }
 
     public void RoundStart(){
         if(gameManager.isLiar && gameManager.isTurn){
-            allowToggle = true;
             LiarTurn();
-        } else {
-            allowToggle = false;
         }
         if(!gameManager.isLiar && gameManager.isTurn){
             DetectiveTurn();
-        } else {
-            statement.gameObject.SetActive(false);
-            detectivePanel.gameObject.SetActive(false);
         }
     }
 
@@ -171,15 +181,6 @@ public class HandManager : MonoBehaviour {
     }
 
     void LiarTurn(){
-        if(selectedCards.Count >= 2 && gameManager.isTurn){
-            liarPlay.gameObject.SetActive(true);
-        } else {
-            liarPlay.gameObject.SetActive(false);
-        }
-
-        if(liarSubmitPanel.gameObject.activeSelf){
-            allowToggle = false;
-        }
     }
 
     public bool selectCard(CardData card, bool add){
@@ -215,7 +216,7 @@ public class HandManager : MonoBehaviour {
 
     public void playCards(){
         Debug.Log("PLAYED");
-        liarSubmitPanel.gameObject.SetActive(true);
+        liarPannel = true;
         liarText.text = "I have " + selectedCards.Count.ToString();
     }
 
@@ -227,9 +228,8 @@ public class HandManager : MonoBehaviour {
             RemoveCard(card);
         }
         gameManager.EndLiarTurn(selectedCards,isTrue,liarText.text,DamageCalculation(selectedCards.Count,pickedCard));
-
-        liarPlay.gameObject.SetActive(false);
-        liarSubmitPanel.gameObject.SetActive(false);
+        liarPannel = false;
+        
     }
 
     public bool isLying(List<CardData> cards, int setValue){
@@ -261,7 +261,7 @@ public class HandManager : MonoBehaviour {
     }
 
     public void HidePanel(){
-        liarSubmitPanel.gameObject.SetActive(false);
+        liarPannel = false;
     }
 
     string GetCardLabel(int value)
@@ -292,8 +292,8 @@ public class HandManager : MonoBehaviour {
 
     void DetectiveTurn(){
             detectivePanel.gameObject.SetActive(true);
-        statement.gameObject.SetActive(true);
-        statement.text = gameManager.statement;
+            statement.gameObject.SetActive(true);
+            statement.text = gameManager.statement;
     }
 
     public void DetectiveGuess(bool guess){

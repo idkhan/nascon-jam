@@ -2833,6 +2833,7 @@ MonoBehaviour:
   tablePos: {fileID: 1256211376}
   statement: 
   damage: 0
+  lobby: {fileID: 1508244655}
 --- !u!4 &788163897
 Transform:
   m_ObjectHideFlags: 0
@@ -6112,7 +6113,7 @@ MonoBehaviour:
   - {fileID: 1683169302}
   - {fileID: 2139454894}
   statusText: {fileID: 403009198}
-  gameManager: {fileID: 0}
+  gameManager: {fileID: 788163896}
 --- !u!4 &1508244656
 Transform:
   m_ObjectHideFlags: 0
