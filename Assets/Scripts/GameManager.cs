@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player{
@@ -30,7 +31,8 @@ public class GameManager : MonoBehaviour
     public string statement;
     private bool isTrue;
     public int damage;
-
+    public TMP_Text health;
+    public Player player = new Player("Main");
     public void Awake() //Singleton Made
     {
         if (Instance != null && Instance != this)
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
     {
         liarUI.gameObject.SetActive(isLiar);
         detectiveUI.gameObject.SetActive(!isLiar);
+        health.text = player.health.ToString();
     }
 
     void StartLiarTurn()
@@ -86,7 +89,7 @@ public class GameManager : MonoBehaviour
             obj.GetComponent<Card>().Initialize(card);
             tableCards.Add(obj);
             obj.transform.localPosition = obj.transform.localPosition + Vector3.right * spacing * (i - Mathf.Floor((count+1)/2));
-            obj.transform.localPosition = obj.transform.localPosition + Vector3.forward * 0.01f * i;
+            obj.transform.localPosition = obj.transform.localPosition + Vector3.forward * 0.01f * i + Vector3.up * 0.1f * -i;
         }
         
         //TEMPORARY
@@ -107,6 +110,8 @@ public class GameManager : MonoBehaviour
             //Detective Wins
         } else {
             //Liar Wins
+            player.health -= damage;
         }
+        StartLiarTurn();
     }
 }
