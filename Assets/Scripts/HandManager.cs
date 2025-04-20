@@ -16,9 +16,6 @@ public class HandManager : MonoBehaviour {
     public List<CardData> hand;
     private List<GameObject> objects;
 
-    [SerializeField]
-    public Turn currentTurn;
-
     public float arcRadius = 5f; // Radius of the curve
     public float maxAngle = 10f; // Total arc angle in degrees
     public float offset = -5f;
@@ -57,6 +54,7 @@ public class HandManager : MonoBehaviour {
 
     [Header("Detective UI")]
     public TMP_Text statement;
+    public CanvasRenderer detectivePanel;
 
     void Start() {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -64,7 +62,8 @@ public class HandManager : MonoBehaviour {
         liarPlay.gameObject.SetActive(false);
         liarSubmitPanel.gameObject.SetActive(false);
         sendButton.interactable = false;
-
+        detectivePanel.gameObject.SetActive(false);
+        statement.gameObject.SetActive(false);
         objects = new List<GameObject>();
         deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<Deck>();
         Draw(5);
@@ -76,16 +75,20 @@ public class HandManager : MonoBehaviour {
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
-        if(currentTurn == Turn.Liar && gameManager.isTurn){
+    }
+
+    public void RoundStart(){
+        if(gameManager.isLiar && gameManager.isTurn){
             allowToggle = true;
             LiarTurn();
         } else {
             allowToggle = false;
         }
-        if(currentTurn == Turn.Detective && gameManager.isTurn){
+        if(!gameManager.isLiar && gameManager.isTurn){
             DetectiveTurn();
         } else {
             statement.gameObject.SetActive(false);
+            detectivePanel.gameObject.SetActive(false);
         }
     }
 
@@ -288,6 +291,7 @@ public class HandManager : MonoBehaviour {
     }
 
     void DetectiveTurn(){
+            detectivePanel.gameObject.SetActive(true);
         statement.gameObject.SetActive(true);
         statement.text = gameManager.statement;
     }
