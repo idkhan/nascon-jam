@@ -34,6 +34,8 @@ public class HandMenu : MonoBehaviour
     public CanvasRenderer howTo;
     private LobbyManager lobby;
 
+    bool creditsDrawn = false;
+    public List<CardData> credits;
 
     void Start() {
         lobby = GameObject.FindGameObjectWithTag("Lobby").GetComponent<LobbyManager>();
@@ -62,10 +64,11 @@ public class HandMenu : MonoBehaviour
         CardHoverMenu hover = card.GetComponent<CardHoverMenu>();
         objects.Add(card);
         if(hover == null){
-            card.AddComponent<CardHoverMenu>(); //Force adding hover to all cards inhand
+            hover = card.AddComponent<CardHoverMenu>(); //Force adding hover to all cards inhand
+            
         }
-        hover = card.GetComponent<CardHoverMenu>();
         hover.setHand(this);
+        UpdateHandLayout();
     }
 
 
@@ -94,7 +97,7 @@ public class HandMenu : MonoBehaviour
             card.localScale = Vector3.one * scale;
 
             //Update Hover (if it exists?? We probably dont need this since ill force add hover anyways)
-            CardHover hover = card.GetComponent<CardHover>();
+            CardHoverMenu hover = card.GetComponent<CardHoverMenu>();
             //if(hover != null){
             hover.SetOriginalPosition(card.localPosition);
             //}
@@ -119,7 +122,18 @@ public class HandMenu : MonoBehaviour
     }
 
     void LoadNext(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
 
+    void DrawCredits(){
+        if(!creditsDrawn){
+            creditsDrawn = true;
+            maxAngle = 15;
+            foreach(CardData card in credits){
+                SpawnCard(card);
+            }
+            
+        }
     }
 
     public void Trigger(int index){
@@ -127,6 +141,7 @@ public class HandMenu : MonoBehaviour
         switch(index){
             case 0: LoadNext(); break;
             case 1: showInstructions(); break;
+            case 2: DrawCredits(); break;
         }
     }
 

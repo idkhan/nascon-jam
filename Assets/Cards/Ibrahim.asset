@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95e010451b06d30409fcb9c8362d4f48, type: 3}
-  m_Name: Quit
+  m_Name: Ibrahim
   m_EditorClassIdentifier: 
   suit: 0
   value: 1
-  image: {fileID: -2039544428, guid: e793727fa31a04e4fa0426a80ae908d4, type: 3}
+  image: {fileID: 971358569, guid: e793727fa31a04e4fa0426a80ae908d4, type: 3}

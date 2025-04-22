@@ -125,8 +125,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f093aa7fec68a7d4188c3eeebfc9c187
-      internalID: 800599795
+      spriteID: b95a7edc3268dd24caba70466ace03d3
+      internalID: -1044662330
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c65acdf84c2ad547b8cef5cf80fd800
-      internalID: -2097519632
+      spriteID: f100d75f02bfcad4aaffd24451ba09dc
+      internalID: 536590604
       vertices: []
       indices: 
       edges: []
@@ -169,8 +169,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ed0bc7e65bbb1fe4186639f94f6428ff
-      internalID: -994812758
+      spriteID: 3ccd8b3c477c64d4f82979c6bdaf4a66
+      internalID: 1994870339
       vertices: []
       indices: 
       edges: []
@@ -191,8 +191,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 57a3106511dee784caa1e89d31b57309
-      internalID: -1325200689
+      spriteID: 98d93629f4b669a4b946d1506d2d2f71
+      internalID: 659110659
       vertices: []
       indices: 
       edges: []
@@ -213,8 +213,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 28ae0df7cc2f15440a6a74740c4b36ab
-      internalID: 223834406
+      spriteID: 5f19b22d75eebf84abb33f25c99be534
+      internalID: -480000680
       vertices: []
       indices: 
       edges: []
@@ -235,8 +235,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 897761df278e69144bf37fc263559207
-      internalID: 2139891784
+      spriteID: 32396bbfa88d6fb4d929842507a36768
+      internalID: -2039544428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu Cards_6
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 216
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f4d4e4ab30606524dadf20d61ca10a82
+      internalID: -282555128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu Cards_7
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 216
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5049b733e29d6254b9deaf511b25ae91
+      internalID: 971358569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu Cards_8
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 216
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 83971eaeaca094545abb6d0bd8fc49f5
+      internalID: -399847922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu Cards_9
+      rect:
+        serializedVersion: 2
+        x: 324
+        y: 216
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd1aeb7b5ddf3e149b5f48126b1fe206
+      internalID: 23816637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Menu Cards_10
+      rect:
+        serializedVersion: 2
+        x: 360
+        y: 216
+        width: 36
+        height: 54
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 41e38c58fc9f8b6488ee1637990882cf
+      internalID: 117962370
       vertices: []
       indices: 
       edges: []
@@ -245,7 +355,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: be48d66a9a4f753468168393b1b1eb4b
+    spriteID: 4c80c26f5829d0e4081cdad7de0d0b16
     internalID: 0
     vertices: []
     indices: 
@@ -255,12 +365,17 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Menu Cards_0: 800599795
-      Menu Cards_1: -2097519632
-      Menu Cards_2: -994812758
-      Menu Cards_3: -1325200689
-      Menu Cards_4: 223834406
-      Menu Cards_5: 2139891784
+      Menu Cards_0: -1044662330
+      Menu Cards_1: 536590604
+      Menu Cards_10: 117962370
+      Menu Cards_2: 1994870339
+      Menu Cards_3: 659110659
+      Menu Cards_4: -480000680
+      Menu Cards_5: -2039544428
+      Menu Cards_6: -282555128
+      Menu Cards_7: 971358569
+      Menu Cards_8: -399847922
+      Menu Cards_9: 23816637
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class CardHoverMenu : MonoBehaviour{
     private Vector3 originalPosition;

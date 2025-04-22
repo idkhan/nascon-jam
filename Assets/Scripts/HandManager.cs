@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public enum Turn{
     Liar,
@@ -38,27 +35,13 @@ public class HandManager : MonoBehaviour {
 
     private Deck deck;
     
-    [SerializeField]
-    private List<CardData> selectedCards;
+    public List<CardData> selectedCards;
     private bool allowToggle;
 
     private GameManager gameManager;
-
-    [Header("Liar UI")]
-    public Button liarPlay;
-    public CanvasRenderer liarSubmitPanel;
-    public TMP_Text liarText;
     private int pickedCard;
-    public Button sendButton;
-    public TMP_Text DamageCount;
-    private bool liarPannel = false;
 
-    [Header("Detective UI")]
-    public TMP_Text statement;
-    public CanvasRenderer detectivePanel;
-
-    private bool isTurn;
-    private bool isLiar;
+    
 
     void Start() {
         gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
@@ -69,37 +52,11 @@ public class HandManager : MonoBehaviour {
         SetBasePosition();
     }
     
-    void setUIElements(){
-        liarPlay.gameObject.SetActive(isLiar && isTurn && selectedCards.Count >=2); //Play card button
-        liarSubmitPanel.gameObject.SetActive(liarPannel);   //Submit statement panel
-        sendButton.interactable = pickedCard != 0;  //
-
-        //Liar UI
-        allowToggle = isTurn && isLiar && !liarSubmitPanel.gameObject.activeSelf;
-            
-        //Detective UI
-        statement.gameObject.SetActive(isTurn && !isLiar); //Lie Statement
-        detectivePanel.gameObject.SetActive(isTurn && !isLiar); //Picker
-
-    }
-
     void Update(){
         Vector3 mousePos = Input.mousePosition;
         handShown = mousePos.y / Screen.height < handBounds ? true : false; //If mouse is in the lowerr area
         ShowHand();
-        isTurn = gameManager.isTurn;
-        isLiar = gameManager.isLiar;
-
-        setUIElements();
-    }
-
-    public void RoundStart(){
-        if(gameManager.isLiar && gameManager.isTurn){
-            LiarTurn();
-        }
-        if(!gameManager.isLiar && gameManager.isTurn){
-            DetectiveTurn();
-        }
+        allowToggle = gameManager.allowToggle;
     }
 
     void SetBasePosition(){
@@ -180,9 +137,6 @@ public class HandManager : MonoBehaviour {
         }
     }
 
-    void LiarTurn(){
-    }
-
     public bool selectCard(CardData card, bool add){
         if(!allowToggle){
             Debug.Log("Not allowed");
@@ -200,9 +154,7 @@ public class HandManager : MonoBehaviour {
         //14 - Spades, 15 - Clubs, 16-Hearts, 17-Diamonds
         pickedCard = number;
         string text = selectedCards.Count.ToString() + " " + GetCardLabel(pickedCard) + "s";
-        liarText.text = "I have " + text;
-        sendButton.interactable = true;
-        DamageCount.text = DamageCalculation(selectedCards.Count,pickedCard).ToString() + " Damage";
+        gameManager.SetText(text,DamageCalculation(selectedCards.Count,pickedCard));
     }
 
     public int DamageCalculation(int numberOfCards, int pickedNumber){
@@ -214,12 +166,6 @@ public class HandManager : MonoBehaviour {
         return (int)Mathf.Floor(numberOfCards * multiplier);
     }
 
-    public void playCards(){
-        Debug.Log("PLAYED");
-        liarPannel = true;
-        liarText.text = "I have " + selectedCards.Count.ToString();
-    }
-
     public void endLiarTurn(){
         Debug.Log("TURN ENDED");
         bool isTrue = isLying(selectedCards,pickedCard); //True if true, false if a lie
@@ -227,8 +173,7 @@ public class HandManager : MonoBehaviour {
         foreach(CardData card in selectedCards){
             RemoveCard(card);
         }
-        gameManager.EndLiarTurn(selectedCards,isTrue,liarText.text,DamageCalculation(selectedCards.Count,pickedCard));
-        liarPannel = false;
+        gameManager.EndLiarTurn(selectedCards,isTrue,DamageCalculation(selectedCards.Count,pickedCard));
         
     }
 
@@ -260,9 +205,6 @@ public class HandManager : MonoBehaviour {
         return true;
     }
 
-    public void HidePanel(){
-        liarPannel = false;
-    }
 
     string GetCardLabel(int value)
     {
@@ -288,16 +230,6 @@ public class HandManager : MonoBehaviour {
             case 17: return "Diamond";
             default: return value.ToString();
         }
-    }
-
-    void DetectiveTurn(){
-            detectivePanel.gameObject.SetActive(true);
-            statement.gameObject.SetActive(true);
-            statement.text = gameManager.statement;
-    }
-
-    public void DetectiveGuess(bool guess){
-        gameManager.EndDetectiveTurn(guess);
     }
 
 }

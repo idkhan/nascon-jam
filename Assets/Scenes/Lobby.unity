@@ -785,7 +785,7 @@ MonoBehaviour:
   - {fileID: 1329401364}
   - {fileID: 1709036330}
   statusText: {fileID: 25418268}
-  ReadyToStart: 0
+  gameManager: {fileID: 0}
 --- !u!4 &823912376
 Transform:
   m_ObjectHideFlags: 0
@@ -882,7 +882,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.1709238, g: 0.18883498, b: 0.21698111, a: 1}
+  m_BackGroundColor: {r: 0.107912086, g: 0.15443462, b: 0.23584908, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1608,7 +1608,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7bfa2bd6da5b000458b561be1cd8ac01, type: 2}
   - {fileID: 11400000, guid: 560122f37ae581b4583b50856cf7e221, type: 2}
   - {fileID: 11400000, guid: 05b72c5783ce45c4199e5852849e5e4f, type: 2}
-  - {fileID: 11400000, guid: 244c2058b9eb1d447bcbc599ecc1ee48, type: 2}
+  - {fileID: 11400000, guid: 6a41e125e544e954992da85629591836, type: 2}
   arcRadius: 5
   maxAngle: 10
   offset: -5
@@ -1618,6 +1618,11 @@ MonoBehaviour:
   xRotate: 30
   lerpSpeed: 5
   howTo: {fileID: 1887858080}
+  credits:
+  - {fileID: 11400000, guid: 4c40b90088ba7fc4ab6c8b0bb263a479, type: 2}
+  - {fileID: 11400000, guid: 244c2058b9eb1d447bcbc599ecc1ee48, type: 2}
+  - {fileID: 11400000, guid: 6f6b5f6cf53bc6543a60294f892cb8f4, type: 2}
+  - {fileID: 11400000, guid: 446f1499e17cb9240917834e4e9e5da2, type: 2}
 --- !u!1 &1887858076
 GameObject:
   m_ObjectHideFlags: 0

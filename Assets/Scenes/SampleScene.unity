@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 197038124}
   - component: {fileID: 197038123}
   m_Layer: 5
-  m_Name: Truth (1)
+  m_Name: Lie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -826,9 +826,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600238285}
-        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
-        m_MethodName: DetectiveGuess
+      - m_Target: {fileID: 788163896}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: EndDetectiveTurn
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1041,9 +1041,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600238285}
-        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
-        m_MethodName: DetectiveGuess
+      - m_Target: {fileID: 788163896}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: EndDetectiveTurn
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2822,8 +2822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c3b5d8f4eaae44ca1a6a58c2e41aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLiar: 0
-  isTurn: 0
+  isLiar: 1
+  isTurn: 1
   health: 10
   healthText: {fileID: 2132514153}
   liarUI: {fileID: 1100953997}
@@ -2831,9 +2831,17 @@ MonoBehaviour:
   tableCards: []
   cardPrefab: {fileID: 5011733393929288696, guid: 9bb63d9112175004fbff08fed0937592, type: 3}
   tablePos: {fileID: 1256211376}
-  statement: 
+  statementText: 
   damage: 0
   lobby: {fileID: 1508244655}
+  liarPlay: {fileID: 1296264537}
+  liarSubmitPanel: {fileID: 1646366320}
+  liarText: {fileID: 604755476}
+  sendButton: {fileID: 1843936232}
+  DamageCount: {fileID: 1645182607}
+  allowToggle: 0
+  detectivePanel: {fileID: 395901072}
+  statement: {fileID: 1750679615}
 --- !u!4 &788163897
 Transform:
   m_ObjectHideFlags: 0
@@ -5184,8 +5192,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1600238285}
-        m_TargetAssemblyTypeName: HandManager, Assembly-CSharp
+      - m_Target: {fileID: 788163896}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
         m_MethodName: playCards
         m_Mode: 1
         m_Arguments:
@@ -5776,7 +5784,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -5785,7 +5793,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_TargetDisplay: 0
 --- !u!224 &1443195738
 RectTransform:
@@ -7812,6 +7820,10 @@ PrefabInstance:
     - target: {fileID: 1824217503633254899, guid: 1b30fa3a265114a45a7e23165a20aecc, type: 3}
       propertyPath: m_Name
       value: PlayroomMockManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1824217503633254899, guid: 1b30fa3a265114a45a7e23165a20aecc, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4611920177403363027, guid: 1b30fa3a265114a45a7e23165a20aecc, type: 3}
       propertyPath: m_LocalPosition.x
