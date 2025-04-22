@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text liarText;
     public Button sendButton;
     public TMP_Text DamageCount;
-    private bool liarPannel = false;
     public bool allowToggle;
 
     [Header("Detective UI")]
@@ -82,20 +81,19 @@ public class GameManager : MonoBehaviour
 
     public void playCards(){
         Debug.Log("PLAYED");
-        liarPannel = true;
+        liarSubmitPanel.gameObject.SetActive(true);
         statementText = "I have " + handManager.selectedCards.Count.ToString();
         liarText.text = statementText;
     }
 
     public void HidePanel(){
-        liarPannel = false;
+        liarSubmitPanel.gameObject.SetActive(false);
     }
 
     void setUIElements(){
         //Liar UI
         liarUI.gameObject.SetActive(isLiar);
         liarPlay.gameObject.SetActive(isLiar && isTurn && handManager.selectedCards.Count >=2); //Play card button
-        liarSubmitPanel.gameObject.SetActive(liarPannel);   //Submit statement panel
 
         //Detective UI
         detectiveUI.gameObject.SetActive(!isLiar);
@@ -119,7 +117,7 @@ public class GameManager : MonoBehaviour
             obj.transform.localPosition = obj.transform.localPosition + Vector3.right * spacing * (i - Mathf.Floor((count+1)/2));
             obj.transform.localPosition = obj.transform.localPosition + Vector3.forward * 0.01f * i + Vector3.up * -i * 0.1f;
         }
-        liarPannel = false;
+        liarSubmitPanel.gameObject.SetActive(false);
         nextTurn();
     }
 

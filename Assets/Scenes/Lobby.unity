@@ -1272,7 +1272,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8987662522597341863, guid: 1b30fa3a265114a45a7e23165a20aecc, type: 3}
       propertyPath: mockMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8987662522597341863, guid: 1b30fa3a265114a45a7e23165a20aecc, type: 3}
       propertyPath: insertCoinCaller
@@ -1634,7 +1634,7 @@ GameObject:
   - component: {fileID: 1887858077}
   - component: {fileID: 1887858080}
   - component: {fileID: 1887858079}
-  - component: {fileID: 1887858078}
+  - component: {fileID: 1887858081}
   m_Layer: 5
   m_Name: HowTo
   m_TagString: Untagged
@@ -1661,18 +1661,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 66.99}
   m_SizeDelta: {x: 1074, y: 1323}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1887858078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1887858076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e358076c2b554e49916df2ccaac3f70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1887858079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1711,6 +1699,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1887858076}
   m_CullTransparentMesh: 1
+--- !u!114 &1887858081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1887858076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e358076c2b554e49916df2ccaac3f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1970060079
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1721,7 +1721,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2596383092080807966, guid: 7a26bd657a42bf145bf2f4560e53d44b, type: 3}
       propertyPath: m_Name
-      value: Hand
+      value: HandMenu
       objectReference: {fileID: 0}
     - target: {fileID: 5555099111669156143, guid: 7a26bd657a42bf145bf2f4560e53d44b, type: 3}
       propertyPath: m_LocalPosition.x

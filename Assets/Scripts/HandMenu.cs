@@ -118,6 +118,9 @@ public class HandMenu : MonoBehaviour
     }
 
     void showInstructions(){
+        if(howTo.GetComponent<PanelHide>() == null){
+            howTo.gameObject.AddComponent<PanelHide>();
+        }
         howTo.gameObject.SetActive(true);
     }
 
